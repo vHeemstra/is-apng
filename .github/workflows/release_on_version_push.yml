@@ -32,9 +32,10 @@ jobs:
 
       - run: |
           nodeos="${{ matrix.node-version }}-${{ matrix.os }}"
-          echo "FILENAME=matrix-${nodeos//./_}.txt" >> $GITHUB_ENV
+          nodeos="matrix-${nodeos//./_}"
+          echo "FILENAME=$nodeos" >> $GITHUB_ENV
           s=':white_check_mark: '"Node ${{ matrix.node-version }}"
-          echo "$s" > "$FILENAME"
+          echo "$s" > "${FILENAME}.txt"
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
