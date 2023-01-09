@@ -46,13 +46,17 @@ jobs:
         with:
           name: matrix-file
       - run: |
-          [[ -f matrix.txt ]] && s="$(<matrix.txt),Node ${{ matrix.node-version }} on ${{ matrix.os }}" || s="Node ${{ matrix.node-version }} on ${{ matrix.os }}"
+          s="$(<matrix.txt)"
+          [[ ! -z "$s" ]] && s="${s}"$'\n'
+          s="${s}"'- [x] '"Node ${{ matrix.node-version }} on ${{ matrix.os }}"
           echo $s > matrix.txt
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
           name: matrix-file
           path: matrix.txt
+      # :white_check_mark:
+      # :x:
 
   release:
     name: Create GitHub release
@@ -112,6 +116,6 @@ jobs:
 
       - name: Create GitHub release
         run: |
-          gh release create $GITHUB_REF_NAME --verify-tag --generate-notes --draft
+          gh release create $GITHUB_REF_NAME --generate-notes --draft --notes-file matrix.txt
         # run: |
         #   gh release create ${{ env.RELEASE_VERSION }} --generate-notes --draft
