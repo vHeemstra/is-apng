@@ -1,6 +1,6 @@
 {
   "name": "is-apng",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Check if a Buffer/Uint8Array is a APNG (Animated PNG) image",
   "license": "MIT",
   "keywords": [
