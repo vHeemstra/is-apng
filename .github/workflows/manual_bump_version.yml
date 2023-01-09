@@ -54,6 +54,8 @@ jobs:
           git config --global user.name 'vHeemstra'
           git config --global user.email '17368112+vHeemstra@users.noreply.github.com'
 
+      - run: npm install
+
       - name: Major version
         if: ${{ inputs.semver == 'major' }}
         run: echo "NEW_VERSION=$(npm version major -m 'Major version %s')" >> $GITHUB_ENV
