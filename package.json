@@ -75,10 +75,10 @@
     "lint": "eslint ./src/",
     "lint:ci": "eslint ./src/ --fix",
     "test": "ava",
-    "preversion": "npm run lint && npm run build && npm run test",
-    "deploy-patch": "npm version patch -m \"Patch version %s\"",
-    "deploy-minor": "npm version patch -m \"Minor version %s\"",
-    "deploy-major": "npm version patch -m \"Major version v%s\""
+    "preversion": "npm run lint && npm run build && npm run test && git add .",
+    "bump-patch": "npm version patch --force -m \"Patch version %s\"",
+    "bump-minor": "npm version patch -m \"Minor version %s\"",
+    "bump-major": "npm version patch -m \"Major version %s\""
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
