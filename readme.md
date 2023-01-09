@@ -1,4 +1,4 @@
-# is-apng &nbsp;&nbsp;[![GitHub release (latest SemVer)][release-image]][release-url] [![NPM version][npm-image]][npm-url] [![Build Status][ci-image]][ci-url]
+# is-apng &nbsp;&nbsp;[![Latest GitHub release][release-image]][release-url] [![Latest NPM version][npm-image]][npm-url] [![Build Status][ci-image]][ci-url]
 
 > Check if a Buffer/Uint8Array is a [Animated PNG / APNG](https://en.wikipedia.org/wiki/APNG) image
 
@@ -10,7 +10,7 @@ $ npm install is-apng
 
 ## Usage
 
-##### Node.js
+### Node.js &nbsp;<img src="./src/node.svg" style="margin-bottom:-0.15em">
 
 ```js
 import { readFile } from 'node:fs/promises'
@@ -22,7 +22,7 @@ isApng(buffer)
 // => true
 ```
 
-##### Browser
+### Browser &nbsp;<img src="./src/chrome.svg" alt="Chrome" title="Chrome" style="margin-bottom:-0.15em"> <img src="./src/edge.svg" alt="Edge" title="Edge" style="margin-bottom:-0.15em"> <img src="./src/firefox.svg" alt="Firefox" title="Firefox" style="margin-bottom:-0.15em"> <img src="./src/safari.svg" alt="Safari" title="Safari" style="margin-bottom:-0.15em"> <img src="./src/opera.svg" alt="Opera" title="Opera" style="margin-bottom:-0.15em">
 
 ```js
 import isApng from 'is-apng'
