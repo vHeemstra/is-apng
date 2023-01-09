@@ -5,9 +5,6 @@ on:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+
 
-env:
-  MATRIX_VALUES:
-
 jobs:
   test:
     name: Test (Node ${{ matrix.node-version }} on ${{ matrix.os }})
@@ -29,7 +26,19 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm run test
-      - run: echo "MATRIX_VALUES=$MATRIX_VALUES,Node ${{ matrix.node-version }} on ${{ matrix.os }}" >> $GITHUB_ENV
+
+      - name: Download matrix file
+        uses: actions/download-artifact@v3
+        with:
+          name: matrix-file
+      - run: |
+          [[ -f matrix.txt ]] && s="$(<matrix.txt),Node ${{ matrix.node-version }} on ${{ matrix.os }}" || s="Node ${{ matrix.node-version }} on ${{ matrix.os }}"
+          $s > matrix.txt
+      - name: Upload matrix file
+        uses: actions/upload-artifact@v3
+        with:
+          name: matrix-file
+          path: matrix.txt
 
   release:
     name: Create GitHub release
@@ -77,11 +86,18 @@ jobs:
       #     echo $RELEASE_VERSION
       #     echo ${{ env.RELEASE_VERSION }}
 
-      - name: Check used matrix
-        run: echo $MATRIX_VALUES
+      - name: Download matrix file
+        uses: actions/download-artifact@v3
+        with:
+          name: matrix-file
+      - name: Print matrix.txt
+        shell: bash
+        run: |
+          value=`cat matrix.txt`
+          echo $value
 
       - name: Create GitHub release
         run: |
-          gh release create $GITHUB_REF_NAME --generate-notes --verify-tag --draft
+          gh release create $GITHUB_REF_NAME --verify-tag --generate-notes --draft
         # run: |
         #   gh release create ${{ env.RELEASE_VERSION }} --generate-notes --draft
