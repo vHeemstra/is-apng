@@ -31,8 +31,9 @@ jobs:
       - run: npm run test
 
       - run: |
+          nodeos="${{ matrix.node-version }}-${{ matrix.os }}"
           s=':white_check_mark: '"Node ${{ matrix.node-version }}"
-          echo "$s" > matrix-${{ matrix.node-version }}-${{ matrix.os }}.txt
+          echo "$s" > "matrix-${nodeos//./_}.txt"
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
@@ -90,7 +91,7 @@ jobs:
 
       - name: Merge matrix files
         run: |
-          s="### Tested with:"$'\n'"$(cat matrix-*)"$'\n\n'"---"
+          s="### Tested with:"$'\n'"$(cat matrix-*.txt)"$'\n\n'"---"
           echo "$s" > matrix-all.txt
 
       - name: Upload matrix file
