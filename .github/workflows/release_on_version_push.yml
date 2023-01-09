@@ -12,7 +12,7 @@ jobs:
     steps:
       - shell: bash
         run: |
-          echo "" > matrix.txt
+          echo "### Tested on:" > matrix.txt
       - name: Create matrix file
         uses: actions/upload-artifact@v3
         with:
@@ -48,8 +48,8 @@ jobs:
       - run: |
           s="$(<matrix.txt)"
           [[ ! -z "$s" ]] && s="${s}"$'\n'
-          s="${s}"'- [x] '"Node ${{ matrix.node-version }} on ${{ matrix.os }}"
-          echo $s > matrix.txt
+          s="${s}"':white_check_mark: '"Node ${{ matrix.node-version }}"
+          echo "$s" > matrix.txt
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
@@ -119,3 +119,19 @@ jobs:
           gh release create $GITHUB_REF_NAME --generate-notes --draft --notes-file matrix.txt
         # run: |
         #   gh release create ${{ env.RELEASE_VERSION }} --generate-notes --draft
+
+      - name: Clean up artifacts
+        uses: actions/github-script@v3
+        with:
+          # GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const {GITHUB_RUN_ID, GITHUB_REPOSITORY} = process.env
+            const artifactsURL = `/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts`
+            console.log(`Deleting artifacs from ${artifactsURL}`)
+            const response = await github.request(`GET ${artifactsURL}`)
+            console.log(response.data)
+            for (artifact of response.data.artifacts) {
+              console.log(`Deleting artifact with name=${artifact.name}, id=${artifact.id}`)
+              const deleteResponse = await github.request(`DELETE /repos/${repo}/actions/artifacts/${artifact.id}`)
+            }
