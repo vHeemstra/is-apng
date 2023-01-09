@@ -32,8 +32,6 @@ jobs:
     defaults:
       run:
         shell: bash
-    # env:
-    #   GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
