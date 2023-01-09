@@ -12,7 +12,7 @@ jobs:
     steps:
       - shell: bash
         run: |
-          "" > matrix.txt
+          echo "" > matrix.txt
       - name: Create matrix file
         uses: actions/upload-artifact@v3
         with:
@@ -47,7 +47,7 @@ jobs:
           name: matrix-file
       - run: |
           [[ -f matrix.txt ]] && s="$(<matrix.txt),Node ${{ matrix.node-version }} on ${{ matrix.os }}" || s="Node ${{ matrix.node-version }} on ${{ matrix.os }}"
-          $s > matrix.txt
+          echo $s > matrix.txt
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
