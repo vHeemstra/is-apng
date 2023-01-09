@@ -6,8 +6,22 @@ on:
       - v[0-9]+.[0-9]+.[0-9]+
 
 jobs:
+  startup:
+    name: Startup
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: |
+          "" > matrix.txt
+      - name: Create matrix file
+        uses: actions/upload-artifact@v3
+        with:
+          name: matrix-file
+          path: matrix.txt
+
   test:
     name: Test (Node ${{ matrix.node-version }} on ${{ matrix.os }})
+    needs: startup
     strategy:
       fail-fast: false
       matrix:
