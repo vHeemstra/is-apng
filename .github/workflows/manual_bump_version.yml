@@ -58,10 +58,10 @@ jobs:
 
       - name: Major version
         if: ${{ inputs.semver == 'major' }}
-        run: echo "NEW_VERSION=$(npm version major -m 'Major version %s')" >> $GITHUB_ENV
+        run: npm run bump-major
       - name: Minor version
         if: ${{ inputs.semver == 'minor' }}
-        run: echo "NEW_VERSION=$(npm version minor -m 'Minor version %s')" >> $GITHUB_ENV
+        run: npm run bump-minor
       - name: Patch version
         if: ${{ inputs.semver == 'patch' }}
-        run: echo "NEW_VERSION=$(npm version patch -m 'Patch version %s')" >> $GITHUB_ENV
+        run: npm run bump-patch
