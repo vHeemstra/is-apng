@@ -1,4 +1,4 @@
-# is-apng
+# is-apng &nbsp;&nbsp;[![GitHub release (latest SemVer)][release-image]][release-url] [![NPM version][npm-image]][npm-url] [![Build Status][ci-image]][ci-url]
 
 > Check if a Buffer/Uint8Array is a [Animated PNG / APNG](https://en.wikipedia.org/wiki/APNG) image
 
@@ -48,3 +48,29 @@ The buffer to check.
 
 - [**is-png**](https://github.com/sindresorhus/is-png) - Check if a Buffer/Uint8Array is a PNG image<br>
   by [Sindre Sorhus](https://github.com/sindresorhus)
+
+## License
+
+MIT © [Philip van Heemstra](https://github.com/vheemstra)
+
+[release-url]: https://github.com/vHeemstra/is-apng/releases
+[release-image]: https://img.shields.io/github/v/release/vHeemstra/is-apng?sort=semver&logo=github&logoColor=959DA5&labelColor=444D56
+
+[npm-url]: https://www.npmjs.com/package/is-apng
+[npm-image]: https://img.shields.io/npm/v/is-apng.svg?color=cb0000&labelColor=444D56&logo=data:image/svg+xml;base64,PHN2ZyByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjOTU5REE1IiBkPSJNMS43NjMgMEMuNzg2IDAgMCAuNzg2IDAgMS43NjN2MjAuNDc0QzAgMjMuMjE0Ljc4NiAyNCAxLjc2MyAyNGgyMC40NzRjLjk3NyAwIDEuNzYzLS43ODYgMS43NjMtMS43NjNWMS43NjNDMjQgLjc4NiAyMy4yMTQgMCAyMi4yMzcgMHpNNS4xMyA1LjMyM2wxMy44MzcuMDE5LS4wMDkgMTMuODM2aC0zLjQ2NGwuMDEtMTAuMzgyaC0zLjQ1NkwxMi4wNCAxOS4xN0g1LjExM3oiPjwvcGF0aD48L3N2Zz4=
+
+[ci-url]: https://github.com/vHeemstra/is-apng/actions/workflows/publish_on_release.yml
+[ci-image]: https://img.shields.io/github/actions/workflow/status/vHeemstra/is-apng/publish_on_release.yml?branch=main&label=lint%20%26%20test&logo=github&logoColor=959DA5&labelColor=444D56
+
+[coverage-url]: https://coveralls.io/github/vHeemstra/is-apng?branch=main
+[coverage-image]: https://img.shields.io/coveralls/github/vHeemstra/is-apng?logo=coveralls&logoColor=959DA5&labelColor=444D56
+[coverage-image_]: https://coveralls.io/repos/github/vHeemstra/is-apng/badge.svg?branch=main
+
+[coverage-url2]: https://codecov.io/gh/vHeemstra/is-apng
+[coverage-image2]: https://codecov.io/gh/vHeemstra/is-apng/branch/main/graph/badge.svg?token=sZaKGStMXg
+
+[deps-url]: https://libraries.io/npm/is-apng
+[deps-image]: https://img.shields.io/librariesio/release/npm/is-apng?logo=libraries.io&logoColor=959DA5&labelColor=444D56
+[deps-image2]: https://img.shields.io/librariesio/github/vHeemstra/is-apng?logo=libraries.io&logoColor=959DA5&labelColor=444D56
+
+[downloads-image]: https://img.shields.io/npm/dm/is-apng.svg?labelColor=444D56&logo=data:image/svg+xml;base64,PHN2ZyByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjOTU5REE1IiBkPSJNMS43NjMgMEMuNzg2IDAgMCAuNzg2IDAgMS43NjN2MjAuNDc0QzAgMjMuMjE0Ljc4NiAyNCAxLjc2MyAyNGgyMC40NzRjLjk3NyAwIDEuNzYzLS43ODYgMS43NjMtMS43NjNWMS43NjNDMjQgLjc4NiAyMy4yMTQgMCAyMi4yMzcgMHpNNS4xMyA1LjMyM2wxMy44MzcuMDE5LS4wMDkgMTMuODM2aC0zLjQ2NGwuMDEtMTAuMzgyaC0zLjQ1NkwxMi4wNCAxOS4xN0g1LjExM3oiPjwvcGF0aD48L3N2Zz4=
