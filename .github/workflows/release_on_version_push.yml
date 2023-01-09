@@ -39,8 +39,8 @@ jobs:
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
-          name: matrix-file-${{ env.FILENAME }}
-          path: matrix-${{ env.FILENAME }}.txt
+          name: ${{ env.FILENAME }}
+          path: ${{ env.FILENAME }}.txt
 
   release:
     name: Create GitHub release
@@ -99,7 +99,7 @@ jobs:
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
-          name: matrix-file-all
+          name: matrix-all
           path: matrix-all.txt
 
       - name: Create GitHub release
@@ -123,7 +123,7 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: |
-            matrix-file-*
+            matrix-*
           failOnError: false
       # This action retreives an empty artifacts list, so it can't remove anything...
       # - name: Clean up artifacts
