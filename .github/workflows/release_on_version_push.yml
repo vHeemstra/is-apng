@@ -12,7 +12,7 @@ jobs:
     steps:
       - shell: bash
         run: |
-          echo "### Tested on:" > matrix.txt
+          echo "### Tested with:" > matrix.txt
       - name: Create matrix file
         uses: actions/upload-artifact@v3
         with:
@@ -55,8 +55,6 @@ jobs:
         with:
           name: matrix-file
           path: matrix.txt
-      # :white_check_mark:
-      # :x:
 
   release:
     name: Create GitHub release
@@ -108,34 +106,55 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: matrix-file
-      - name: Print matrix.txt
-        shell: bash
-        run: |
-          value=`cat matrix.txt`
-          echo $value
-
+      - run: |
+          s="$(<matrix.txt)"$'\n'"---"
+          echo "$s" > matrix.txt
+      - name: Upload matrix file
+        uses: actions/upload-artifact@v3
+        with:
+          name: matrix-file
+          path: matrix.txt
+      # - name: Print matrix.txt
+      #   shell: bash
+      #   run: |
+      #     value=`cat matrix.txt`
+      #     echo $value
       - name: Create GitHub release
         run: |
           gh release create $GITHUB_REF_NAME --generate-notes --draft --notes-file matrix.txt
         # run: |
         #   gh release create ${{ env.RELEASE_VERSION }} --generate-notes --draft
 
+  cleanup:
+    name: Clean up
+    if: ${{ always() }}
+    needs: [startup, test, release]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+    steps:
       - name: Clean up artifacts
-        uses: actions/github-script@v6
+        uses: geekyeggo/delete-artifact@v2
         with:
-          # GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          script: |
-            const {GITHUB_RUN_ID, GITHUB_REPOSITORY} = process.env
-            const artifactsURL = `/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts`
-            console.log(`Deleting artifacs from ${artifactsURL}`)
-            const response = await github.request(`GET ${artifactsURL}`)
-            console.log(response.data)
-            for (artifact of response.data.artifacts) {
-              console.log(`Deleting artifact with name=${artifact.name}, id=${artifact.id}`)
-              // const deleteResponse = await github.request(`DELETE /repos/${repo}/actions/artifacts/${artifact.id}`)
-            }
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: matrix-file
+          name: |
+            matrix-file
           failOnError: false
+      # This action retreives an empty artifacts list, so it can't remove anything...
+      # - name: Clean up artifacts
+      #   uses: actions/github-script@v6
+      #   with:
+      #     # GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      #     github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      #     script: |
+      #       const {GITHUB_RUN_ID, GITHUB_REPOSITORY} = process.env
+      #       const artifactsURL = `/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts`
+      #       console.log(`Deleting artifacs from ${artifactsURL}`)
+      #       const response = await github.request(`GET ${artifactsURL}`)
+      #       console.log(response.data)
+      #       for (artifact of response.data.artifacts) {
+      #         console.log(`Deleting artifact with name=${artifact.name}, id=${artifact.id}`)
+      #         const deleteResponse = await github.request(`DELETE /repos/${repo}/actions/artifacts/${artifact.id}`)
+      #       }

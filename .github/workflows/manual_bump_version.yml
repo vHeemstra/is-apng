@@ -1,0 +1,65 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+    inputs:
+      semver:
+        description: 'Semver bump'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      # print_tags:
+      #   description: 'True to print to STDOUT'
+      #   required: true
+      #   type: boolean
+      # tags:
+      #   description: 'Test scenario tags'
+      #   required: true
+      #   type: string
+      # environment:
+      #   description: 'Environment to run tests against'
+      #   type: environment
+      #   required: true
+
+jobs:
+  bump-version:
+    name: Bump package ${{ inputs.semver }} version
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.github_token }
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: https://registry.npmjs.org/
+
+      - name: Set Git user
+        run: |
+          git config --global user.name 'vHeemstra'
+          git config --global user.email '17368112+vHeemstra@users.noreply.github.com'
+
+      - name: Major version
+        if: ${{ inputs.semver == 'major' }}
+        run: echo "NEW_VERSION=$(npm version major -m 'Major version %s')" >> $GITHUB_ENV
+      - name: Minor version
+        if: ${{ inputs.semver == 'minor' }}
+        run: echo "NEW_VERSION=$(npm version minor -m 'Minor version %s')" >> $GITHUB_ENV
+      - name: Patch version
+        if: ${{ inputs.semver == 'patch' }}
+        run: echo "NEW_VERSION=$(npm version patch -m 'Patch version %s')" >> $GITHUB_ENV
