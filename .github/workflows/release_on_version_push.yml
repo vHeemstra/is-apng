@@ -38,6 +38,8 @@ jobs:
       - run: |
           s=':white_check_mark: '"Node ${{ matrix.node-version }}"
           echo "$s" > ${{ env.FILENAME_TXT }}
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
         with:
@@ -92,6 +94,9 @@ jobs:
 
       - name: Download matrix files
         uses: actions/download-artifact@v3
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Merge matrix files
         run: |
