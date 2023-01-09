@@ -1,4 +1,4 @@
-name: Lint / Build / Test / Publish
+name: Test / Publish
 
 on:
   release:
@@ -7,14 +7,17 @@ on:
 
 jobs:
   test:
-    name: Lint & Test (Node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
+    name: Test (Node ${{ matrix.node-version }} on ${{ matrix.os }})
     strategy:
       matrix:
+        os: [ubuntu-latest]
         node-version: [14.x, 16.x, 18.x]
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           # cache: 'npm'
@@ -28,8 +31,10 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
           # cache: 'npm'

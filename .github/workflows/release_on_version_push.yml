@@ -5,22 +5,31 @@ on:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+
 
+env:
+  MATRIX_VALUES: ''
+
 jobs:
   test:
-    name: Lint & Test (Node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
+    name: Test (Node ${{ matrix.node-version }} on ${{ matrix.os }})
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [16.x]
+        os: [ubuntu-latest]
+        node-version: [14.x, 16.x, 18.x]
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          # cache: 'npm'
       - run: npm install
       - run: npm run lint
       - run: npm run build
       - run: npm run test
+      - run: echo "MATRIX_VALUES=$MATRIX_VALUES,Node ${{ matrix.node-version }} on ${{ matrix.os }}" >> $GITHUB_ENV
 
   release:
     name: Create GitHub release
@@ -61,13 +70,18 @@ jobs:
       #     echo $RELEASE_VERSION_VIA_OUTPUT
       #     echo ${{ steps.vars.outputs.tag }}
 
-      - name: Set env release version
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      # - name: Set env release version
+      #   run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       # - name: Check env
       #   run: |
       #     echo $RELEASE_VERSION
       #     echo ${{ env.RELEASE_VERSION }}
 
+      - name: Check used matrix
+        run: echo $MATRIX_VALUES
+
       - name: Create GitHub release
         run: |
-          gh release create ${{ env.RELEASE_VERSION }} --generate-notes
+          gh release create $GITHUB_REF_NAME --generate-notes --verify-tag --draft
+        # run: |
+        #   gh release create ${{ env.RELEASE_VERSION }} --generate-notes --draft
