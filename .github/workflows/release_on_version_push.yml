@@ -107,7 +107,7 @@ jobs:
         with:
           name: matrix-file
       - run: |
-          s="$(<matrix.txt)"$'\n'"---"
+          s="$(<matrix.txt)"$'\n\n'"---"
           echo "$s" > matrix.txt
       - name: Upload matrix file
         uses: actions/upload-artifact@v3
