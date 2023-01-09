@@ -2,7 +2,8 @@ name: Lint / Build / Test / Publish
 
 on:
   release:
-    types: [created]
+    types: [published]
+    # types: [created]
 
 jobs:
   test:

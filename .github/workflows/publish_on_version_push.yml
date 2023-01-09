@@ -1,0 +1,100 @@
+name: Lint / Build / Test / Publish
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+
+# check tag
+# lint, build, test
+# GitHub release
+# NPM publish (auto??)
+
+jobs:
+  test:
+    name: Lint / Test with Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run test
+
+  release:
+    name: Create GitHub release
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.github_token }
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: npm
+          registry-url: https://registry.npmjs.org/
+
+      - name: Set Git user
+        run: |
+          git config --global user.name 'vHeemstra'
+          git config --global user.email '17368112+vHeemstra@users.noreply.github.com'
+
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Check output
+        env:
+          RELEASE_VERSION_VIA_OUTPUT: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION_VIA_OUTPUT
+          echo ${{ steps.vars.outputs.tag }}
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Check env
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
+
+      - name: Create GitHub release
+        run: |
+          gh release create ${{ env.RELEASE_VERSION }} --draft --title "${{ steps.vars.outputs.tag }}" --generate-notes
+
+  # publish-npm:
+  #   name: Publish to NPM
+  #   needs: release
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16.x
+  #         cache: 'npm'
+  #         registry-url: 'https://registry.npmjs.org'
+  #     - run: npm install
+  #     - run: npm run lint:ci
+  #     - run: npm run build
+  #     - run: npm publish
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
