@@ -90,7 +90,7 @@ jobs:
 
       - name: Merge matrix files
         run: |
-          s="### Tested with:"$'\n'"$(cat matrix-*.txt)"$'\n\n'"---"
+          s="### Tested with:"$'\n'"$(cat matrix-*)"$'\n\n'"---"
           echo "$s" > matrix-all.txt
 
       - name: Upload matrix file
