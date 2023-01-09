@@ -1,0 +1,7 @@
+.vscode
+*.code-workspace
+node_modules
+dist
+lib
+package-lock.json
+*.tgz

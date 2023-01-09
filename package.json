@@ -1,0 +1,98 @@
+{
+  "name": "is-apng",
+  "version": "0.0.1",
+  "description": "Check if a Buffer/Uint8Array is a APNG (Animated PNG) image",
+  "license": "MIT",
+  "keywords": [
+    "apng",
+    "animated",
+    "portable",
+    "network",
+    "graphics",
+    "image",
+    "picture",
+    "photo",
+    "type",
+    "detect",
+    "check",
+    "is",
+    "exif",
+    "binary",
+    "buffer",
+    "uint8array"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vHeemstra/is-apng.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vHeemstra/is-apng/issues"
+  },
+  "author": {
+    "name": "Philip van Heemstra",
+    "email": "vanheemstra@gmail.com",
+    "url": "https://github.com/vheemstra"
+  },
+  "maintainers": [
+    {
+      "name": "Philip van Heemstra",
+      "email": "vanheemstra@gmail.com",
+      "url": "https://github.com/vheemstra"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Philip van Heemstra",
+      "email": "vanheemstra@gmail.com",
+      "url": "https://github.com/vheemstra"
+    },
+    {
+      "name": "Sindre Sorhus",
+      "email": "sindresorhus@gmail.com",
+      "url": "https://sindresorhus.com"
+    }
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.esm.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "./dist/"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development tsup",
+    "build": "cross-env NODE_ENV=production tsup",
+    "lint": "eslint ./src/",
+    "lint:ci": "eslint ./src/ --fix",
+    "test": "ava",
+    "preversion": "npm run lint && npm run build && npm run test",
+    "deploy-patch": "npm version patch -m \"Patch version %s\"",
+    "deploy-minor": "npm version patch -m \"Minor version %s\"",
+    "deploy-major": "npm version patch -m \"Major version v%s\""
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
+    "ava": "^5.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.2",
+    "tsup": "^6.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
