@@ -76,8 +76,8 @@
     "build": "cross-env NODE_ENV=production tsup",
     "test": "ava",
     "bump-patch": "npm version patch -m \"Patch version %s\"",
-    "bump-minor": "npm version patch -m \"Minor version %s\"",
-    "bump-major": "npm version patch -m \"Major version %s\"",
+    "bump-minor": "npm version minor -m \"Minor version %s\"",
+    "bump-major": "npm version major -m \"Major version %s\"",
     "preversion": "npm run lint && npm run build && npm run test",
     "version": "git add .",
     "postversion": "git push --follow-tags"
