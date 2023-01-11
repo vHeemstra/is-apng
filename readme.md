@@ -24,6 +24,8 @@ isApng(buffer)
 
 ### Browser &nbsp;<img src="./src/chrome.svg" alt="Chrome" title="Chrome" style="margin-bottom:-0.15em"> <img src="./src/edge.svg" alt="Edge" title="Edge" style="margin-bottom:-0.15em"> <img src="./src/firefox.svg" alt="Firefox" title="Firefox" style="margin-bottom:-0.15em"> <img src="./src/safari.svg" alt="Safari" title="Safari" style="margin-bottom:-0.15em"> <img src="./src/opera.svg" alt="Opera" title="Opera" style="margin-bottom:-0.15em">
 
+#### As package through NPM
+
 ```js
 import isApng from 'is-apng'
 
@@ -32,6 +34,55 @@ const buffer = await response.arrayBuffer()
 
 isApng(new Uint8Array(buffer))
 // => true
+```
+
+#### As old-school global script tag
+
+Url for latest version: `https://unpkg.com/is-apng`<br>
+Url for specific version: `https://unpkg.com/is-apng@1.0.1/dist/index.js`
+
+```html
+<script src="https://unpkg.com/is-apng" type="text/javascript"></script>
+
+<script type="text/javascript">
+  console.log(typeof isApng);
+  // isApng(...)
+</script>
+```
+
+#### As module
+
+Url for latest version: `https://unpkg.com/is-apng/dist/index.esm.js`<br>
+Url for specific version: `https://unpkg.com/is-apng@1.0.1/dist/index.esm.js`
+
+```html
+<script type="module">
+  import isApng from 'https://unpkg.com/is-apng/dist/index.esm.js'
+
+  console.log(typeof isApng);
+  // isApng(...)
+</script>
+```
+
+or
+
+```html
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+  {
+    "imports": {
+      "is-apng": "https://unpkg.com/is-apng/dist/index.esm.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import isApng from 'is-apng'
+
+  console.log(typeof isApng);
+  // isApng(...)
+</script>
 ```
 
 ## API
