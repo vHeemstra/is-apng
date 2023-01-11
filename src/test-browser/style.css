@@ -1,0 +1,321 @@
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* See: https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  font-family: 'Source Code Sans', 'Segoe UI', Tahoma, Geneva, Verdana,
+    sans-serif;
+  background-color: #f1f1f1;
+}
+
+section {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-content: flex-end;
+}
+
+section {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+header {
+  position: fixed;
+  left: 1em;
+  top: 0.25em;
+  width: fit-content;
+}
+header h1 {
+  font-size: 4em;
+}
+header small {
+  display: block;
+  width: 100%;
+  padding: 0 0.25em;
+  margin-top: -0.8em;
+  text-align: justify;
+  -moz-text-align-last: justify;
+  text-align-last: justify;
+  text-transform: uppercase;
+  /*
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  */
+}
+#label-wrapper {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+#label {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /*
+  */
+  background-image: radial-gradient(rgb(255, 255, 255), hsl(206, 23%, 85%));
+  transition: all 0.35s ease;
+}
+
+#label > div {
+  pointer-events: none;
+  opacity: 0;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 0;
+  height: 0;
+  padding-bottom: 10vh;
+  /*
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  */
+  font-size: 2em;
+  justify-content: center;
+  align-items: center;
+}
+#label:not(.dragging):not(.is-apng):not(.not-apng):not(.not-image) .is-empty,
+#label:not(.dragging).is-apng .is-apng,
+#label:not(.dragging).not-apng .not-apng,
+#label.dragging .dragging,
+#label:not(.dragging).not-image .not-image {
+  width: auto;
+  height: auto;
+  position: relative;
+  opacity: 1;
+}
+
+#label.dragging {
+  box-shadow: inset 0 0 50vmin 0 hsl(210, 65%, 40%);
+}
+
+#label:not(.dragging).is-apng {
+  box-shadow: inset 0 0 50vmin 0 hsl(145, 65%, 40%);
+}
+
+#label:not(.dragging).not-apng {
+  box-shadow: inset 0 0 50vmin 0 hsl(0, 65%, 55%);
+}
+
+#label > div img {
+  max-width: 50vmin;
+  max-height: 45vmin;
+}
+
+#label > div .filename {
+  font-family: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'Liberation Mono',
+    Menlo, Monaco, Consolas, monospace;
+  margin-top: 0.5em;
+  font-size: 0.65em;
+  /* background-color: #fff; */
+  color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.3em;
+  padding: 0.25em 0.5em;
+}
+
+#result {
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  min-height: 150px;
+  font-size: 1.8em;
+  padding: 1.25em 1.25em;
+  background-color: hsl(0, 0%, 70%);
+  border-radius: 0.35em;
+  align-items: center;
+  justify-content: center;
+}
+#result::before {
+  content: '';
+  display: flex;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.65); */
+}
+#result::after {
+  /* content: '...'; */
+  content: 'Click or Drop file here';
+  padding-left: 0;
+  display: flex;
+  text-align: center;
+  font-size: 1.25em;
+  color: rgba(255, 255, 255, 0.85);
+  /* color: rgba(255, 255, 255, 0.3); */
+  font-weight: bold;
+}
+#result:hover {
+  background-color: hsl(210, 65%, 40%);
+}
+#result:hover::after {
+  content: 'Click or Drop file here';
+  padding-left: 0;
+}
+#result.is-apng {
+  background-color: hsl(145, 65%, 40%);
+}
+#result.is-apng::before {
+  content: '✓';
+}
+#result.is-apng::after {
+  content: 'File is APNG';
+  padding-left: 2em;
+}
+#result.not-apng {
+  background-color: hsl(0, 65%, 55%);
+}
+#result.not-apng::before {
+  content: '✗';
+}
+#result.not-apng::after {
+  content: 'File is not APNG';
+  padding-left: 2em;
+}
+#result.is-apng::before,
+#result.not-apng::before {
+  position: absolute;
+  left: 0.85em;
+  top: 0.55em;
+  display: inline-block;
+  align-self: center;
+  font-weight: bold;
+  font-size: 200%;
+}
+
+#info {
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  max-width: calc(100% - 2em);
+  max-height: calc(100% - 2em);
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 1.5em;
+  font-size: 1.125rem;
+  border-radius: 0.5em;
+}
+#info ul {
+  padding-top: 0.3em;
+  list-style: none;
+}
+#info ul li {
+  position: relative;
+  margin-top: 0.5em;
+  padding-left: 1.5em;
+  line-height: 1;
+  font-size: 1rem;
+}
+#info ul li::before {
+  --size: 0.35em;
+
+  content: '';
+  position: absolute;
+  left: calc(0.75em - 0.5 * var(--size));
+  top: calc(0.5em - 0.5 * var(--size));
+  display: inline-flex;
+  width: var(--size);
+  height: var(--size);
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+}
+
+#images {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  max-width: calc(100px + 3em);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  list-style: none;
+  justify-content: flex-start;
+  align-items: flex-end;
+  overflow: hidden;
+  /*
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  */
+}
+
+#images li {
+  pointer-events: initial;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#images span:nth-child(1) {
+  display: flex;
+  width: 120px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+#images span:nth-child(2) {
+  font-size: smaller;
+  background: rgba(255, 255, 255, 0.5);
+  margin-top: 1em;
+  padding: 0.25em 0.5em 0.3em;
+  border-radius: 0.5em;
+}
+
+#images img {
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#images img {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+#images img.grabbed {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}

@@ -42,10 +42,10 @@ jobs:
 
       - name: Major version
         if: ${{ inputs.semver == 'major' }}
-        run: npm run bump-major
+        run: npm run bump:major
       - name: Minor version
         if: ${{ inputs.semver == 'minor' }}
-        run: npm run bump-minor
+        run: npm run bump:minor
       - name: Patch version
         if: ${{ inputs.semver == 'patch' }}
-        run: npm run bump-patch
+        run: npm run bump:patch

@@ -1,7 +1,7 @@
-dist
-lib
-.vscode
-*.code-workspace
+other/
+dist/
+lib/
+.vscode/
 node_modules
 package-lock.json
 *.tgz

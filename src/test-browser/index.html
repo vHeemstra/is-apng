@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test isApng</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Module JS -->
+    <!--
+    <script type="module">
+      import isApng from './js/index.esm.js'
+
+      if (typeof isApng !== 'function') {
+        console.error(
+          '%c✗%c Could not load isApng: variable `isApng` is ' + typeof isApng,
+          'color:hsl(0, 65%, 55%); font-weight:bold',
+          'color: initial; font-weight:normal',
+        )
+
+        document.addEventListener('DOMContentLoaded', () => {
+          document.querySelector('#images').remove()
+          document.querySelector('#info').remove()
+          document.querySelector('#label').classList.add('not-apng')
+          document.querySelector('#label > .not-apng > .filename').innerHTML =
+            'ERROR'
+          document.querySelector(
+            '#label > .not-apng > .filename',
+          ).nextElementSibling.innerHTML = 'Could not load <b>isApng</b>'
+        })
+      } else {
+        console.log(
+          '%c✓%c isApng is loaded',
+          'color:hsl(145, 65%, 40%); font-weight:bold',
+          'color: initial; font-weight:normal',
+        )
+
+        /**
+         * Cross-compatible trigger of onChange event
+         */
+        function triggerOnChange(element) {
+          if (typeof Event === 'function') {
+            const newEvent = new Event('change', {
+              bubbles: true,
+              cancelable: false,
+            })
+            element.dispatchEvent(newEvent)
+          } else if ('createEvent' in document) {
+            const newEvent = document.createEvent('event')
+            newEvent.initEvent('change', true, true)
+            element.dispatchEvent(newEvent)
+          } else if (typeof element.onchange === 'function') {
+            element.onchange()
+          } else {
+            element.fireEvent('onchange')
+          }
+        }
+
+        function resetForm() {
+          result.classList.remove('is-apng', 'not-apng', 'not-image')
+        }
+
+        function processFile() {
+          if (inputFile) {
+            document.querySelectorAll('.filename').forEach(function (el) {
+              el.innerHTML = inputFile.name
+            })
+            if (inputFile.type.match(/^image\//)) {
+              reader.readAsArrayBuffer(inputFile)
+            } else {
+              // Not even an image
+              result.classList.add('not-image')
+              result.classList.remove('dragging')
+            }
+          }
+        }
+
+        var result = null
+        var input = null
+        var inputFile = null
+        var is_apng = null
+        var reader = new FileReader()
+        var reader2 = new FileReader()
+
+        reader.addEventListener('load', function () {
+          is_apng = isApng(new Uint8Array(this.result))
+          reader2.readAsDataURL(inputFile)
+        })
+
+        reader2.addEventListener('load', function () {
+          result.querySelector(
+            `div.${is_apng ? 'is-apng' : 'not-apng'} > img`,
+          ).src = this.result
+        })
+
+        document.addEventListener('DOMContentLoaded', () => {
+          input = document.getElementById('input')
+          result = document.getElementById('label')
+          result.querySelectorAll(':scope img').forEach(function (img) {
+            img.addEventListener('load', function () {
+              if (is_apng === null) {
+                return
+              }
+              result.classList.toggle(
+                'not-apng',
+                !result.classList.toggle('is-apng', is_apng),
+              )
+              result.classList.remove('dragging')
+            })
+            img.addEventListener('error', function (err) {
+              // Not even an image
+              result.classList.add('not-image')
+              result.classList.remove('dragging')
+            })
+          })
+
+          /**
+           * File processing
+           */
+          input.addEventListener('click', function () {
+            resetForm()
+          })
+          input.addEventListener('change', function () {
+            if (this.files && this.files.length) {
+              inputFile = this.files[0]
+            } else {
+              inputFile = null
+            }
+            processFile()
+          })
+
+          /**
+           * Drag-n-Drop handling
+           */
+          result.addEventListener('dragenter', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+            const draggingFiles =
+              ev.dataTransfer.types.length &&
+              ev.dataTransfer.types.includes('Files')
+
+            this.classList.toggle('dragging', draggingFiles)
+
+            ev.dataTransfer.dropEffect = draggingFiles ? 'copy' : 'none'
+          })
+          result.addEventListener('dragover', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+            ev.dataTransfer.dropEffect =
+              ev.dataTransfer.types.length &&
+              ev.dataTransfer.types.includes('Files')
+                ? 'copy'
+                : 'none'
+          })
+          result.addEventListener('dragleave', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+            this.classList.remove('dragging')
+          })
+          result.addEventListener('drop', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+
+            resetForm()
+            // input.files = ev.dataTransfer.files
+            // triggerOnChange(input)
+            if (ev.dataTransfer.files && ev.dataTransfer.files.length) {
+              inputFile = ev.dataTransfer.files[0]
+            } else {
+              inputFile = null
+            }
+            processFile()
+          })
+
+          document.querySelectorAll('img').forEach(function (img) {
+            img.addEventListener('dragstart', function (ev) {
+              this.classList.add('grabbed')
+              ev.dataTransfer.effectAllowed = 'copy'
+            })
+            img.addEventListener('mousedown', function (ev) {
+              this.classList.add('grabbed')
+            })
+            img.addEventListener('mouseup', function (ev) {
+              this.classList.remove('grabbed')
+            })
+            img.addEventListener('dragend', function (ev) {
+              this.classList.remove('grabbed')
+            })
+          })
+        })
+      }
+    </script>
+    -->
+
+    <!-- Standard JS -->
+    <script src="js/index.js"></script>
+    <script type="text/javascript">
+      if (typeof isApng !== 'function') {
+        console.error(
+          '%c✗%c Could not load isApng: variable `isApng` is ' + typeof isApng,
+          'color:hsl(0, 65%, 55%); font-weight:bold',
+          'color: initial; font-weight:normal',
+        )
+
+        document.addEventListener('DOMContentLoaded', () => {
+          document.querySelector('#images').remove()
+          document.querySelector('#info').remove()
+          document.querySelector('#label').classList.add('not-apng')
+          document.querySelector('#label > .not-apng > .filename').innerHTML =
+            'ERROR'
+          document.querySelector(
+            '#label > .not-apng > .filename',
+          ).nextElementSibling.innerHTML = 'Could not load <b>isApng</b>'
+        })
+      } else {
+        console.log(
+          '%c✓%c isApng is loaded',
+          'color:hsl(145, 65%, 40%); font-weight:bold',
+          'color: initial; font-weight:normal',
+        )
+
+        /**
+         * Cross-compatible trigger of onChange event
+         */
+        function triggerOnChange(element) {
+          if (typeof Event === 'function') {
+            const newEvent = new Event('change', {
+              bubbles: true,
+              cancelable: false,
+            })
+            element.dispatchEvent(newEvent)
+          } else if ('createEvent' in document) {
+            const newEvent = document.createEvent('event')
+            newEvent.initEvent('change', true, true)
+            element.dispatchEvent(newEvent)
+          } else if (typeof element.onchange === 'function') {
+            element.onchange()
+          } else {
+            element.fireEvent('onchange')
+          }
+        }
+
+        function resetForm() {
+          result.classList.remove('is-apng', 'not-apng', 'not-image')
+        }
+
+        function processFile() {
+          if (inputFile) {
+            document.querySelectorAll('.filename').forEach(function (el) {
+              el.innerHTML = inputFile.name
+            })
+            if (inputFile.type.match(/^image\//)) {
+              reader.readAsArrayBuffer(inputFile)
+            } else {
+              // Not even an image
+              result.classList.add('not-image')
+              result.classList.remove('dragging')
+            }
+          }
+        }
+
+        var result = null
+        var input = null
+        var inputFile = null
+        var is_apng = null
+        var reader = new FileReader()
+        var reader2 = new FileReader()
+
+        reader.addEventListener('load', function () {
+          is_apng = isApng(new Uint8Array(this.result))
+          reader2.readAsDataURL(inputFile)
+        })
+
+        reader2.addEventListener('load', function () {
+          result.querySelector(
+            `div.${is_apng ? 'is-apng' : 'not-apng'} > img`,
+          ).src = this.result
+        })
+
+        document.addEventListener('DOMContentLoaded', () => {
+          input = document.getElementById('input')
+          result = document.getElementById('label')
+          result.querySelectorAll(':scope img').forEach(function (img) {
+            img.addEventListener('load', function () {
+              if (is_apng === null) {
+                return
+              }
+              result.classList.toggle(
+                'not-apng',
+                !result.classList.toggle('is-apng', is_apng),
+              )
+              result.classList.remove('dragging')
+            })
+            img.addEventListener('error', function (err) {
+              // Not even an image
+              result.classList.add('not-image')
+              result.classList.remove('dragging')
+            })
+          })
+
+          /**
+           * File processing
+           */
+          input.addEventListener('click', function () {
+            resetForm()
+          })
+          input.addEventListener('change', function () {
+            if (this.files && this.files.length) {
+              inputFile = this.files[0]
+            } else {
+              inputFile = null
+            }
+            processFile()
+          })
+
+          /**
+           * Drag-n-Drop handling
+           */
+          result.addEventListener('dragenter', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+            const draggingFiles =
+              ev.dataTransfer.types.length &&
+              ev.dataTransfer.types.includes('Files')
+
+            this.classList.toggle('dragging', draggingFiles)
+
+            ev.dataTransfer.dropEffect = draggingFiles ? 'copy' : 'none'
+          })
+          result.addEventListener('dragover', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+            ev.dataTransfer.dropEffect =
+              ev.dataTransfer.types.length &&
+              ev.dataTransfer.types.includes('Files')
+                ? 'copy'
+                : 'none'
+          })
+          result.addEventListener('dragleave', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+            this.classList.remove('dragging')
+          })
+          result.addEventListener('drop', function (ev) {
+            ev.stopPropagation()
+            ev.preventDefault()
+
+            resetForm()
+            // input.files = ev.dataTransfer.files
+            // triggerOnChange(input)
+            if (ev.dataTransfer.files && ev.dataTransfer.files.length) {
+              inputFile = ev.dataTransfer.files[0]
+            } else {
+              inputFile = null
+            }
+            processFile()
+          })
+
+          document.querySelectorAll('img').forEach(function (img) {
+            img.addEventListener('dragstart', function (ev) {
+              this.classList.add('grabbed')
+              ev.dataTransfer.effectAllowed = 'copy'
+            })
+            img.addEventListener('mousedown', function (ev) {
+              this.classList.add('grabbed')
+            })
+            img.addEventListener('mouseup', function (ev) {
+              this.classList.remove('grabbed')
+            })
+            img.addEventListener('dragend', function (ev) {
+              this.classList.remove('grabbed')
+            })
+          })
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <input type="file" id="input" class="visually-hidden" accept="image/*" />
+    <div id="label-wrapper">
+      <label id="label" for="input">
+        <div class="dragging">
+          <span>Drop to check</span>
+        </div>
+        <div class="is-empty">
+          <span>Drop an image here</span>
+          <span>- or -</span>
+          <span>Click and select an image</span>
+        </div>
+        <div class="is-apng">
+          <img
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+          />
+          <span class="filename"></span>
+          <span>is APNG</span>
+        </div>
+        <div class="not-apng">
+          <img
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+          />
+          <span class="filename"></span>
+          <span>is not APNG</span>
+        </div>
+        <div class="not-image">
+          <img src="img/broken.png" />
+          <span class="filename"></span>
+          <span>is not even an image!</span>
+        </div>
+      </label>
+    </div>
+    <section>
+      <header>
+        <h1>isAPNG</h1>
+        <small>Check if image is Animated PNG</small>
+      </header>
+      <div id="info">
+        Test if a image is an Animated PNG file, by either:
+        <ul>
+          <li>
+            <strong>Click</strong> the page above
+            <strong>and select a file</strong> on your computer
+          </li>
+          <li>
+            <strong>Drag</strong> any
+            <strong>file from your computer</strong> to the page above
+          </li>
+          <li>
+            <strong>Drag</strong> any of the
+            <strong>images on the right</strong> to the page above
+          </li>
+          <li>
+            <strong>Drag</strong> any
+            <strong>image from another browser tab</strong> to the page above
+          </li>
+        </ul>
+      </div>
+      <ul id="images">
+        <li>
+          <span>
+            <img src="img/static.jpg" title="Static JPG" draggable="true" />
+          </span>
+          <span>Static JPG</span>
+        </li>
+        <li>
+          <span>
+            <img src="img/static.png" title="Static PNG" draggable="true" />
+          </span>
+          <span>Static PNG</span>
+        </li>
+        <li>
+          <span>
+            <img src="img/animated.png" title="Animated PNG" draggable="true" />
+          </span>
+          <span>Animated PNG</span>
+        </li>
+        <li>
+          <span>
+            <img src="img/animated.gif" title="Animated GIF" draggable="true" />
+          </span>
+          <span>Animated GIF</span>
+        </li>
+        <li>
+          <span>
+            <img
+              src="img/animated.webp"
+              title="Animated WebP"
+              draggable="true"
+            />
+          </span>
+          <span>Animated WebP</span>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
