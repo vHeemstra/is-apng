@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          repository: vHeemstra/is-apng
       - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -33,6 +35,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          repository: vHeemstra/is-apng
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:

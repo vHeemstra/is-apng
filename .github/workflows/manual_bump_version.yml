@@ -24,6 +24,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
+          repository: vHeemstra/is-apng
           fetch-depth: 0
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 

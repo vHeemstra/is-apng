@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          repository: vHeemstra/is-apng
       - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -58,6 +60,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
+          repository: vHeemstra/is-apng
           fetch-depth: 0
 
       - name: Install Node.js
@@ -86,7 +89,6 @@ jobs:
       #   run: |
       #     echo $RELEASE_VERSION
       #     echo ${{ env.RELEASE_VERSION }}
-
       - name: Download artifacts
         uses: actions/download-artifact@v3
         # NOTE: if all artifacts are downloaded,
