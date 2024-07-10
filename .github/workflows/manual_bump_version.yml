@@ -26,7 +26,7 @@ jobs:
         with:
           repository: vHeemstra/is-apng
           fetch-depth: 0
-          # token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Install Node.js
         uses: actions/setup-node@v3

@@ -55,7 +55,7 @@ jobs:
       run:
         shell: bash
     env:
-      GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -118,7 +118,7 @@ jobs:
       run:
         shell: bash
     env:
-      GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Clean up artifacts
         uses: geekyeggo/delete-artifact@v2
@@ -130,8 +130,8 @@ jobs:
       # - name: Clean up artifacts
       #   uses: actions/github-script@v6
       #   with:
-      #     # GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      #     github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      #     # GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      #     github-token: ${{ secrets.GH_TOKEN }}
       #     script: |
       #       const {GITHUB_RUN_ID, GITHUB_REPOSITORY} = process.env
       #       const artifactsURL = `/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts`
