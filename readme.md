@@ -39,7 +39,7 @@ isApng(new Uint8Array(buffer))
 #### As old-school global script tag
 
 Url for latest version: `https://unpkg.com/is-apng`<br>
-Url for specific version: `https://unpkg.com/is-apng@1.0.1/dist/index.js`
+Url for specific version: `https://unpkg.com/is-apng@1.1.0/dist/index.js`
 
 ```html
 <script src="https://unpkg.com/is-apng" type="text/javascript"></script>
@@ -52,12 +52,12 @@ Url for specific version: `https://unpkg.com/is-apng@1.0.1/dist/index.js`
 
 #### As module
 
-Url for latest version: `https://unpkg.com/is-apng/dist/index.esm.js`<br>
-Url for specific version: `https://unpkg.com/is-apng@1.0.1/dist/index.esm.js`
+Url for latest version: `https://unpkg.com/is-apng/dist/index.mjs`<br>
+Url for specific version: `https://unpkg.com/is-apng@1.1.0/dist/index.mjs`
 
 ```html
 <script type="module">
-  import isApng from 'https://unpkg.com/is-apng/dist/index.esm.js'
+  import isApng from 'https://unpkg.com/is-apng/dist/index.mjs'
 
   console.log(typeof isApng);
   // isApng(...)
@@ -72,7 +72,7 @@ or
 <script type="importmap">
   {
     "imports": {
-      "is-apng": "https://unpkg.com/is-apng/dist/index.esm.js"
+      "is-apng": "https://unpkg.com/is-apng/dist/index.mjs"
     }
   }
 </script>
