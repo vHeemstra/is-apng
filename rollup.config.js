@@ -23,13 +23,13 @@ export default [
     ],
     output: [
       {
-        file: `${isProduction ? 'dist' : 'lib'}/index.esm.js`,
+        file: `${isProduction ? 'dist' : 'lib'}/index.mjs`,
         format: 'esm',
         // sourcemap: isProduction,
       },
       {
         name: 'isApng',
-        file: `${isProduction ? 'dist' : 'lib'}/index.cjs.js`,
+        file: `${isProduction ? 'dist' : 'lib'}/index.cjs`,
         format: 'cjs',
         // interop: 'auto',
         // sourcemap: isProduction,
@@ -75,7 +75,7 @@ export default [
   //   ],
   //   output: {
   //     name: 'isApng',
-  //     file: `${isProduction ? 'dist' : 'lib'}/index.cjs.js`,
+  //     file: `${isProduction ? 'dist' : 'lib'}/index.cjs`,
   //     format: 'cjs',
   //     // interop: 'default',
   //     interop: 'auto',
