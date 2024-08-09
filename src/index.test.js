@@ -65,3 +65,18 @@ test('returns false when missing IDAT', (t) => {
     ),
   )
 })
+
+test('chunks should be found when preceded by a partial of themselves', (t) => {
+  t.true(
+    isApng(
+      new Uint8Array([
+        // PNG header
+        0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+        // a acTL
+        0x61, 0x61, 0x63, 0x54, 0x4c,
+        // I IDAT
+        0x49, 0x49, 0x44, 0x41, 0x54,
+      ]),
+    ),
+  )
+})

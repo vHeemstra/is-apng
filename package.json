@@ -72,7 +72,7 @@
   "scripts": {
     "lint": "eslint ./src/",
     "lint:fix": "eslint ./src/ --fix",
-    "build:watch": "cross-env NODE_ENV=development rollup --config rollup.config.js --watch --sourcemap inline",
+    "build:watch": "cross-env NODE_ENV=development rollup --config rollup.config.js --sourcemap inline --watch",
     "build:dev": "cross-env NODE_ENV=development rollup --config rollup.config.js --sourcemap inline",
     "build": "cross-env NODE_ENV=production rollup --config rollup.config.js",
     "test": "ava",

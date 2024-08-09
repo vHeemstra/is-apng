@@ -39,22 +39,29 @@ export default function isApng(buffer: Buffer | Uint8Array): boolean {
   let firstIndex = 0
   let secondIndex = 0
   for (let i = 0; i < buffer.length; i++) {
-    if (buffer[i] === sequences.animationControlChunk[firstIndex]) {
+    if (
+      !foundFirst &&
+      (buffer[i] === sequences.animationControlChunk[firstIndex] ||
+        (firstIndex > 0 &&
+          ((firstIndex = 0) ||
+            buffer[i] === sequences.animationControlChunk[firstIndex])))
+    ) {
       firstIndex++
       if (firstIndex === sequences.animationControlChunk.length) {
         foundFirst = true
       }
-    } else {
-      firstIndex = 0
     }
 
-    if (buffer[i] === sequences.imageDataChunk[secondIndex]) {
+    if (
+      buffer[i] === sequences.imageDataChunk[secondIndex] ||
+      (secondIndex > 0 &&
+        ((secondIndex = 0) ||
+          buffer[i] === sequences.imageDataChunk[secondIndex]))
+    ) {
       secondIndex++
       if (secondIndex === sequences.imageDataChunk.length) {
         return foundFirst
       }
-    } else {
-      secondIndex = 0
     }
   }
 
