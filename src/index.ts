@@ -1,76 +1,3 @@
-// import { Buffer } from 'node:buffer'
-
-/**
- * Returns the index of the first occurrence of a sequence in an typed array, or -1 if it is not present.
- *
- * Works similar to `Array.prototype.indexOf()`, but it searches for a sequence of array values (bytes).
- * The bytes in the `haystack` array are decoded (UTF-8) and then used to search for `needle`.
- *
- * @param buffer
- * Array to search in.
- *
- * @param searchSequence
- * The value to locate in the array.
- *
- * @param fromIndex
- * The array index at which to begin the search.
- *
- * @param stopSequence
- * Byte sequence to stop search
- *
- * @returns boolean
- * Whether the array holds Animated PNG data.
- */
-function hasSequence(
-  buffer: Buffer | Uint8Array,
-  searchSequence: Uint8Array,
-  fromIndex: number,
-  stopSequence: Uint8Array,
-): boolean {
-  function validateSequence(sequence: Uint8Array): void {
-    if (!sequence.length) {
-      throw new Error('Sequence is empty')
-    }
-
-    // Search only unique symbols to simplify the algorithm
-    if (new Set(sequence).size !== sequence.length) {
-      throw new Error('Sequence must consist of unique symbols')
-    }
-  }
-
-  validateSequence(searchSequence)
-  validateSequence(stopSequence)
-
-  if (fromIndex >= buffer.length) {
-    return false
-  }
-  buffer = buffer.subarray(fromIndex)
-
-  let matchSearchIndex = 0
-  let matchStopIndex = 0
-  for (let i = 0; i < buffer.length; i++) {
-    if (buffer[i] === searchSequence[matchSearchIndex]) {
-      matchSearchIndex++
-      if (matchSearchIndex === searchSequence.length) {
-        return true
-      }
-    } else {
-      matchSearchIndex = 0
-    }
-
-    if (buffer[i] === stopSequence[matchStopIndex]) {
-      matchStopIndex++
-      if (matchStopIndex === stopSequence.length) {
-        return false
-      }
-    } else {
-      matchStopIndex = 0
-    }
-  }
-
-  return false
-}
-
 const encoder = new TextEncoder()
 const sequences = {
   animationControlChunk: encoder.encode('acTL'),
@@ -103,17 +30,33 @@ export default function isApng(buffer: Buffer | Uint8Array): boolean {
     return false
   }
 
-  // APNGs have an animation control chunk ('acTL') preceding the IDATs.
+  // APNGs have an animation control chunk ('acTL') preceding any IDAT(s).
   // See: https://en.wikipedia.org/wiki/APNG#File_format
-  return hasSequence(
-    buffer,
-    sequences.animationControlChunk,
-    8,
-    sequences.imageDataChunk,
-  )
+
+  buffer = buffer.subarray(8)
+
+  let foundFirst = false
+  let firstIndex = 0
+  let secondIndex = 0
+  for (let i = 0; i < buffer.length; i++) {
+    if (buffer[i] === sequences.animationControlChunk[firstIndex]) {
+      firstIndex++
+      if (firstIndex === sequences.animationControlChunk.length) {
+        foundFirst = true
+      }
+    } else {
+      firstIndex = 0
+    }
+
+    if (buffer[i] === sequences.imageDataChunk[secondIndex]) {
+      secondIndex++
+      if (secondIndex === sequences.imageDataChunk.length) {
+        return foundFirst
+      }
+    } else {
+      secondIndex = 0
+    }
+  }
+
+  return false
 }
-
-// globalThis.isApng = isApng
-
-// const idatIdx = buffer.indexOf('IDAT')
-// const actlIdx = buffer.indexOf('acTL')
