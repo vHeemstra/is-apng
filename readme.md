@@ -21,6 +21,7 @@ const buffer = await readFile('image.png')
 isApng(buffer)
 // => true
 ```
+<sup>_Note: As of version 2, Node versions below 18 are not supported._</sup>
 
 ### Browser &nbsp;<img src="./src/chrome.svg" alt="Chrome" title="Chrome" style="margin-bottom:-0.15em"> <img src="./src/edge.svg" alt="Edge" title="Edge" style="margin-bottom:-0.15em"> <img src="./src/firefox.svg" alt="Firefox" title="Firefox" style="margin-bottom:-0.15em"> <img src="./src/safari.svg" alt="Safari" title="Safari" style="margin-bottom:-0.15em"> <img src="./src/opera.svg" alt="Opera" title="Opera" style="margin-bottom:-0.15em">
 
