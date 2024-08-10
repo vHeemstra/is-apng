@@ -6,14 +6,14 @@ on:
       node_versions:
         description: 'Select Node versions'
         required: true
-        default: '["14.x", "16.x", "18.x"]'
+        default: '["18.x", "20.x", "22.x"]'
         type: choice
         options:
-          - '["14.x"]'
-          - '["16.x"]'
           - '["18.x"]'
-          - '["16.x", "18.x"]'
-          - '["14.x", "16.x", "18.x"]'
+          - '["20.x"]'
+          - '["22.x"]'
+          - '["20.x", "22.x"]'
+          - '["18.x", "20.x", "22.x"]'
       os_version:
         description: 'Select OS'
         required: true
@@ -39,11 +39,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: vHeemstra/is-apng
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install

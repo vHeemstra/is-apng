@@ -12,18 +12,18 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x, 20.x, 22.x]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
         shell: bash
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: vHeemstra/is-apng
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
@@ -42,7 +42,7 @@ jobs:
           s=':white_check_mark: '"Node ${{ matrix.node-version }}"
           echo "$s" > ${{ env.FILENAME_TXT }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.FILENAME }}
           path: ${{ env.FILENAME_TXT }}
@@ -58,15 +58,15 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: vHeemstra/is-apng
           fetch-depth: 0
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 22.x
           registry-url: https://registry.npmjs.org/
 
       - name: Set Git user
@@ -90,7 +90,7 @@ jobs:
       #     echo $RELEASE_VERSION
       #     echo ${{ env.RELEASE_VERSION }}
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         # NOTE: if all artifacts are downloaded,
         #       they will each put in their own folder.
 
@@ -100,7 +100,7 @@ jobs:
           echo "$s" > matrix-all.txt
 
       - name: Upload merged artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: matrix-all
           path: matrix-all.txt
@@ -121,7 +121,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Clean up artifacts
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: |
             matrix-*

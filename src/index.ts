@@ -30,7 +30,7 @@ export default function isApng(buffer: Buffer | Uint8Array): boolean {
     return false
   }
 
-  // APNGs have an animation control chunk ('acTL') preceding any IDAT(s).
+  // APNGs have an animation control chunk (acTL) preceding any IDAT(s).
   // See: https://en.wikipedia.org/wiki/APNG#File_format
 
   buffer = buffer.subarray(8)
