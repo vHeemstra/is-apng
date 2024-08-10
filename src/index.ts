@@ -35,7 +35,6 @@ export default function isApng(buffer: Buffer | Uint8Array): boolean {
 
   buffer = buffer.subarray(8)
 
-  let foundFirst = false
   let firstIndex = 0
   let secondIndex = 0
   for (let i = 0; i < buffer.length; i++) {
@@ -48,7 +47,7 @@ export default function isApng(buffer: Buffer | Uint8Array): boolean {
     ) {
       firstIndex++
       if (firstIndex === sequences.animationControlChunk.length) {
-        foundFirst = true
+        return true
       }
     }
 
@@ -60,7 +59,7 @@ export default function isApng(buffer: Buffer | Uint8Array): boolean {
     ) {
       secondIndex++
       if (secondIndex === sequences.imageDataChunk.length) {
-        return foundFirst
+        return false
       }
     }
   }
