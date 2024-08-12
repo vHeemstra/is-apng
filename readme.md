@@ -44,7 +44,7 @@ isApng(new Uint8Array(buffer))
 #### As old-school global script tag
 
 Url for latest version: `https://unpkg.com/is-apng`<br>
-Url for specific version: `https://unpkg.com/is-apng@1.1.4/dist/index.js`
+Url for specific version: `https://unpkg.com/is-apng@2.0.0/dist/index.js`
 
 ```html
 <script src="https://unpkg.com/is-apng" type="text/javascript"></script>
@@ -58,7 +58,7 @@ Url for specific version: `https://unpkg.com/is-apng@1.1.4/dist/index.js`
 #### As module
 
 Url for latest version: `https://unpkg.com/is-apng/dist/index.mjs`<br>
-Url for specific version: `https://unpkg.com/is-apng@1.1.4/dist/index.mjs`
+Url for specific version: `https://unpkg.com/is-apng@2.0.0/dist/index.mjs`
 
 ```html
 <script type="module">
