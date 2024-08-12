@@ -25,7 +25,7 @@ const buffer = await readFile('image.png')
 isApng(buffer)
 // => true
 ```
-<sup>_Note: As of version 2, Node versions below 18 are not supported._</sup>
+<sup>_Note: As of version 1.2, Node versions below 18 are not supported._</sup>
 
 ### Browser &nbsp;<img src="./src/chrome.svg" alt="Chrome" title="Chrome" style="margin-bottom:-0.15em"> <img src="./src/edge.svg" alt="Edge" title="Edge" style="margin-bottom:-0.15em"> <img src="./src/firefox.svg" alt="Firefox" title="Firefox" style="margin-bottom:-0.15em"> <img src="./src/safari.svg" alt="Safari" title="Safari" style="margin-bottom:-0.15em"> <img src="./src/opera.svg" alt="Opera" title="Opera" style="margin-bottom:-0.15em">
 
@@ -44,7 +44,7 @@ isApng(new Uint8Array(buffer))
 #### As old-school global script tag
 
 Url for latest version: `https://unpkg.com/is-apng`<br>
-Url for specific version: `https://unpkg.com/is-apng@2.0.0/dist/index.js`
+Url for specific version: `https://unpkg.com/is-apng@1.2.0/dist/index.js`
 
 ```html
 <script src="https://unpkg.com/is-apng" type="text/javascript"></script>
@@ -58,7 +58,7 @@ Url for specific version: `https://unpkg.com/is-apng@2.0.0/dist/index.js`
 #### As module
 
 Url for latest version: `https://unpkg.com/is-apng/dist/index.mjs`<br>
-Url for specific version: `https://unpkg.com/is-apng@2.0.0/dist/index.mjs`
+Url for specific version: `https://unpkg.com/is-apng@1.2.0/dist/index.mjs`
 
 ```html
 <script type="module">
