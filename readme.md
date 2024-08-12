@@ -1,6 +1,10 @@
 # is-apng &nbsp;&nbsp;[![Latest GitHub release][release-image]][release-url] [![Latest NPM version][npm-image]][npm-url] [![Build Status][ci-image]][ci-url]
 
-> Check if a Buffer/Uint8Array is a [Animated PNG / APNG](https://en.wikipedia.org/wiki/APNG) image
+> Checks if a Buffer/Uint8Array contains a [Animated PNG / APNG](https://en.wikipedia.org/wiki/APNG) image.
+
+> [!IMPORTANT]
+> This is _only_ a quick detect method and does not do full (A)PNG file validation.<br>
+> For security and file integrity sensitive operations, use a true (A)PNG validator (see also [specs](https://www.w3.org/TR/png/)).
 
 ## Install
 
