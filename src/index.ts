@@ -2,14 +2,18 @@ function convertToInt(bytes: Uint8Array) {
   return bytes.reduce((value, byte) => (value << 8) + byte)
 }
 
-function isEqual(first, second, length = 4) {
+function isEqual(
+  first: Uint8Array | number[],
+  second: Uint8Array | number[],
+  length = 4,
+) {
   while (length > 0) {
     length--
     if (first[length] !== second[length]) {
       return false
     }
   }
-  return true;
+  return true
 }
 
 /**
@@ -32,15 +36,12 @@ const chunkTypes = {
   imageData: [0x49, 0x44, 0x41, 0x54], // 'IDAT'
 }
 
-export default function isApng(buffer: Buffer | Uint8Array): boolean {
+export default function isApng(buffer: Uint8Array): boolean {
   const minChunkSize = headerSizes.LENGTH + headerSizes.TYPE + headerSizes.CRC
-  
+
   if (
     !buffer ||
-    !(
-      (typeof Buffer !== 'undefined' && Buffer.isBuffer(buffer)) ||
-      buffer instanceof Uint8Array
-    ) ||
+    !(buffer instanceof Uint8Array) ||
     buffer.length < headerSizes.SIGNATURE + minChunkSize
   ) {
     return false
@@ -72,7 +73,8 @@ export default function isApng(buffer: Buffer | Uint8Array): boolean {
       return false
     }
 
-    const nextChunkPosition = minChunkSize + convertToInt(buffer.subarray(0, headerSizes.LENGTH))
+    const nextChunkPosition =
+      minChunkSize + convertToInt(buffer.subarray(0, headerSizes.LENGTH))
 
     buffer = buffer.subarray(nextChunkPosition)
   }
