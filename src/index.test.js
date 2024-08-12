@@ -142,7 +142,7 @@ test('returns false on too small PNG', (t) => {
   )
 })
 
-test('returns false on invalid chunk', (t) => {
+test('returns false when next chunk size is too small', (t) => {
   t.false(
     isApng(
       new Uint8Array([
@@ -152,6 +152,12 @@ test('returns false on invalid chunk', (t) => {
         0x00, 0x00, 0x00, 0x04,
         // Chunk type: any
         0x00, 0x00, 0x00, 0x01,
+        // Chunk CRC
+        0x00, 0x00, 0x00, 0x00,
+        // Chunk length: 4
+        0x00, 0x00, 0x00, 0x04,
+        // Chunk type: any
+        0x00, 0x00, 0x00, 0x02,
         // Chunk CRC omitted
       ]),
     ),
