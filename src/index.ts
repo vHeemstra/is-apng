@@ -1,64 +1,82 @@
-const encoder = new TextEncoder()
-const sequences = {
-  animationControlChunk: encoder.encode('acTL'),
-  imageDataChunk: encoder.encode('IDAT'),
+function convertToInt(bytes: Uint8Array) {
+  return bytes.reduce((value, byte) => (value << 8) + byte)
 }
 
-export default function isApng(buffer: Buffer | Uint8Array): boolean {
+function isEqual(
+  first: Uint8Array | number[],
+  second: Uint8Array | number[],
+  length = 4,
+) {
+  while (length > 0) {
+    length--
+    if (first[length] !== second[length]) {
+      return false
+    }
+  }
+  return true
+}
+
+/**
+ * @see https://www.w3.org/TR/png/#5DataRep
+ */
+const headerSizes = {
+  /** Number of bytes reserved for PNG signature */
+  SIGNATURE: 8,
+  /** Number of bytes reserved for chunk type */
+  LENGTH: 4,
+  /** Number of bytes reserved for chunk type */
+  TYPE: 4,
+  /** Number of bytes reserved for chunk CRC */
+  CRC: 4,
+}
+
+const chunkTypes = {
+  signature: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+  animationControl: [0x61, 0x63, 0x54, 0x4c], // 'acTL'
+  imageData: [0x49, 0x44, 0x41, 0x54], // 'IDAT'
+}
+
+export default function isApng(buffer: Uint8Array): boolean {
+  const minChunkSize = headerSizes.LENGTH + headerSizes.TYPE + headerSizes.CRC
+
   if (
     !buffer ||
-    !(
-      (typeof Buffer !== 'undefined' && Buffer.isBuffer(buffer)) ||
-      buffer instanceof Uint8Array
-    ) ||
-    buffer.length < 16
+    !(buffer instanceof Uint8Array) ||
+    buffer.length < headerSizes.SIGNATURE + minChunkSize
   ) {
     return false
   }
 
-  const isPNG =
-    buffer[0] === 0x89 &&
-    buffer[1] === 0x50 &&
-    buffer[2] === 0x4e &&
-    buffer[3] === 0x47 &&
-    buffer[4] === 0x0d &&
-    buffer[5] === 0x0a &&
-    buffer[6] === 0x1a &&
-    buffer[7] === 0x0a
-
-  if (!isPNG) {
+  /** Check for PNG signature */
+  if (!isEqual(buffer, chunkTypes.signature, headerSizes.SIGNATURE)) {
     return false
   }
 
-  // APNGs have an animation control chunk (acTL) preceding any IDAT(s).
-  // See: https://en.wikipedia.org/wiki/APNG#File_format
+  buffer = buffer.subarray(headerSizes.SIGNATURE)
 
-  buffer = buffer.subarray(8)
+  /**
+   * APNGs have an animation control (acTL) chunk preceding any image data (IDAT) chunks.
+   * @see: https://www.w3.org/TR/png/#5ChunkOrdering
+   */
 
-  let firstIndex = 0
-  let secondIndex = 0
-  for (let i = 0; i < buffer.length; i++) {
-    if (buffer[i] !== sequences.animationControlChunk[firstIndex]) {
-      firstIndex = 0
+  while (buffer.length >= minChunkSize) {
+    const chunkType = buffer.subarray(
+      headerSizes.LENGTH,
+      headerSizes.LENGTH + headerSizes.TYPE,
+    )
+
+    if (isEqual(chunkType, chunkTypes.animationControl, headerSizes.TYPE)) {
+      return true
     }
 
-    if (buffer[i] === sequences.animationControlChunk[firstIndex]) {
-      firstIndex++
-      if (firstIndex === sequences.animationControlChunk.length) {
-        return true
-      }
+    if (isEqual(chunkType, chunkTypes.imageData, headerSizes.TYPE)) {
+      return false
     }
 
-    if (buffer[i] !== sequences.imageDataChunk[secondIndex]) {
-      secondIndex = 0
-    }
+    const nextChunkPosition =
+      minChunkSize + convertToInt(buffer.subarray(0, headerSizes.LENGTH))
 
-    if (buffer[i] === sequences.imageDataChunk[secondIndex]) {
-      secondIndex++
-      if (secondIndex === sequences.imageDataChunk.length) {
-        return false
-      }
-    }
+    buffer = buffer.subarray(nextChunkPosition)
   }
 
   return false
