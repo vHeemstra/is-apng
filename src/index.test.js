@@ -120,7 +120,7 @@ test('returns false when acTL is not a chunk type', (t) => {
         // Chunk length: 4
         0x00, 0x00, 0x00, 0x04,
         // Chunk type: any
-        0x00, 0x00, 0x00, 0x01,
+        0x66, 0x66, 0x66, 0x66,
         // Chunk data: acTL
         0x61, 0x63, 0x54, 0x4c,
         // Chunk CRC
@@ -151,14 +151,44 @@ test('returns false when next chunk size is too small', (t) => {
         // Chunk length: 4
         0x00, 0x00, 0x00, 0x04,
         // Chunk type: any
-        0x00, 0x00, 0x00, 0x01,
+        0x66, 0x66, 0x66, 0x66,
         // Chunk CRC
         0x00, 0x00, 0x00, 0x00,
         // Chunk length: 4
         0x00, 0x00, 0x00, 0x04,
         // Chunk type: any
-        0x00, 0x00, 0x00, 0x02,
+        0x66, 0x66, 0x66, 0x66,
         // Chunk CRC omitted
+      ]),
+    ),
+  )
+})
+
+test('returns false when chunk type is invalid', (t) => {
+  t.false(
+    isApng(
+      new Uint8Array([
+        // PNG header
+        0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+        // Chunk length: 0
+        0x00, 0x00, 0x00, 0x00,
+        // Chunk type: invalid bytes
+        0x00, 0x00, 0x00, 0x01,
+      ]),
+    ),
+  )
+})
+
+test('returns false when unknown critical chunk type', (t) => {
+  t.false(
+    isApng(
+      new Uint8Array([
+        // PNG header
+        0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+        // Chunk length: 0
+        0x00, 0x00, 0x00, 0x00,
+        // Chunk type: unknown critical
+        0x55, 0x55, 0x55, 0x55,
       ]),
     ),
   )
